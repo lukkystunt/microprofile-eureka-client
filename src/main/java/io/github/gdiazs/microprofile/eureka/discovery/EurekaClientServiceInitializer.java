@@ -1,5 +1,6 @@
 package io.github.gdiazs.microprofile.eureka.discovery;
 
+import javax.enterprise.context.Destroyed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.Initialized;
@@ -53,5 +54,9 @@ public class EurekaClientServiceInitializer {
     public EurekaClient eurekaClient(){
         return EurekaClientServiceInitializer.eurekaClient;
 
+    }
+    
+    public void shutdownEurekaClient(@Observes @Destroyed(ApplicationScoped.class) Object event) {
+         eurekaClient.shutdown();
     }
 }
